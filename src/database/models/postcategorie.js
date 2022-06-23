@@ -8,13 +8,16 @@ const PostCategorie = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       foreignKey: true
     },
-  }, {
-    timestamps: false,
   });
 
   PostCategorie.associate = (models) => {
     PostCategorie.belongsTo(models.BlogPost,
       { foreignKey: 'postId', as: 'blogPosts' });
+  };
+
+  PostCategorie.associate = (models) => {
+    PostCategorie.belongsTo(models.Categorie,
+      { foreignKey: 'categoryId', as: 'categories' });
   };
 
   return PostCategorie;
