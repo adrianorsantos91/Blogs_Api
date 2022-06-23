@@ -10,10 +10,10 @@ const Categorie = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  Categorie.associate = (models) => {
-    Categorie.hasMany(models.PostCategorie,
-      { foreignKey: 'categoryId', as: 'postCategories' });
-  };
+  // Categorie.associate = (models) => {
+  //   Categorie.hasMany(models.PostCategorie,
+  //     { foreignKey: 'categoryId', as: 'postCategories' });
+  // };
 
   return Categorie;
 };
