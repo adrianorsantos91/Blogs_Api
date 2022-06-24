@@ -1,12 +1,9 @@
 const { authenticateToken } = require('../utils/JWTToken');
 
-const authenticationMiddleware = async (req, res, next) => {
+const authenticationMiddleware = (req, res, next) => {
     const token = req.headers.authorization;
 
-    const payload = await authenticateToken(token);
-    // if (!payload) {
-    //     throw { status: 401, message: "token inválido" };
-    // }
+    const payload = authenticateToken(token);
 
     res.locals.payload = payload;
 
