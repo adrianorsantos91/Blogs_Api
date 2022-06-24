@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET = process.env.SECRET || 'akldhkjladadhjksvdhj';
+const SECRET = process.env.JWT_SECRET || 'akldhkjladadhjksvdhj';
 // https://datatracker.ietf.org/doc/html/rfc7519#section-4.1
 const jwtConfig = {
-    expiresIn: '7d',
+    // expiresIn: '7d',
     algorithm: 'HS256',
 };
 
