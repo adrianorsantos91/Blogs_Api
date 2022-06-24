@@ -1,22 +1,14 @@
 const { User } = require('../database/models');
 const { generateJWTToken } = require('../utils/JWTToken');
 
-const authentication = async ({ email, password }) => {
-  console.log('dados:', email, password);
-  if (!email || !password) {
-    const errorNotFound = { status: 400, message: 'Some required fields are missing' };
-    throw errorNotFound;
-  }
-
+const authentication = async ({ email }) => {
   const usuario = await User.findOne({
-    attributes: ['id', 'displayName', 'email', 'image'],
+    attributes: { exclude: ['password'] },
     where: { email },
   });
-  console.log(usuario);
 
   if (!usuario) {
-    const userNotFound = { status: 400, message: 'Invalid fields' };
-    throw userNotFound;
+    return false;
   }
 
   const token = generateJWTToken(usuario.email);
