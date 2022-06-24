@@ -1,6 +1,5 @@
 const userService = require('../services/userService');
 const loginService = require('../services/loginService');
-// const authenticateToken = require('../middlewares/auth.middleware');
 
 const createUser = async (req, res) => {
   const create = await userService.createUser(req.body);
@@ -14,6 +13,13 @@ const createUser = async (req, res) => {
   return res.status(201).json(token);
 };
 
+const getUserAll = async (_req, res) => {
+  const userAll = await userService.getUserAll();
+
+  return res.status(200).json(userAll);
+};
+
 module.exports = {
   createUser,
+  getUserAll,
 };
