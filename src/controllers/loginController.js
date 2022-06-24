@@ -1,9 +1,17 @@
 const loginService = require('../services/loginService');
 
-const authentication = async (res, req) => {
-  console.log('controller: %s', req.body);
+const authentication = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Some required fields are missing' });
+  }
+
   const token = await loginService.authentication(req.body);
-  console.log('token: %s', token);
+
+  if (!token) {
+    return res.status(400).json({ message: 'Invalid fields' });
+  }
+
   return res.status(200).json(token);
 };
 
