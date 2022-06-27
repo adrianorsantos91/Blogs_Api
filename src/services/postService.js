@@ -1,21 +1,25 @@
-const { User, BlogPost, Category } = require('../database/models');
+const { User, BlogPost, Category, PostCategory } = require('../database/models');
 
 const createPost = async (email, { title, content, categoryIds }) => {
-  const userId = await User.findOne({
-    where: { email },
-  });
-  console.log('userId:', userId);
-  const checkCategory = await Category.findAll({
+  const userId = await User.findOne({ where: { email } });
+
+  const { count } = await Category.findAndCountAll({
     where: { id: categoryIds },
   });
 
-  console.log('teste:', checkCategory);
-  if (!checkCategory || checkCategory.length === 0) return false;
+  if (count === 0) return false;
 
   const post = await BlogPost.create({
     title,
     content,
     userId: userId.id,
+  });
+
+  categoryIds.forEach(async (category) => {
+    await PostCategory.create({
+      postId: post.id,
+      categoryId: category,
+    });
   });
 
   return post;
