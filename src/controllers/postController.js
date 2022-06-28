@@ -57,10 +57,18 @@ const deletePostById = async (req, res) => {
   return res.status(204).end();
 };
 
+const searchPostByQuery = async (req, res) => {
+  const { q } = req.query;
+  console.log('queryContr: %s', q);
+  const searchResult = await postService.searchPostByQuery(q);
+  return res.status(200).json(searchResult);
+};
+
 module.exports = {
   createPost,
   getPostAll,
   getPostById,
   updatePostById,
   deletePostById,
+  searchPostByQuery,
 };
