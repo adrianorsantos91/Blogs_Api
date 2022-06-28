@@ -77,9 +77,26 @@ const updatePostById = async (id, email, { title, content }) => {
   return updatePost;
 };
 
+const deletePostById = async (id, email) => {
+  console.log('id: %s', id);
+  const haveBlogPost = await BlogPost.findOne({ where: { id } });
+
+  if (!haveBlogPost) return 'notFoundPost';
+
+  const userIdByEmail = await User.findOne({ where: { email } });
+  console.log('checkEmail: %s', userIdByEmail.id);
+
+  if (userIdByEmail.id !== haveBlogPost.userId) return false;
+
+  const test = await BlogPost.destroy({ where: { id } });
+  console.log('test: %s', test);
+  return true;
+};
+
 module.exports = {
   createPost,
   getPostAll,
   getPostById,
   updatePostById,
+  deletePostById,
 };
