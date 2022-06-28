@@ -28,8 +28,17 @@ const getUserById = async (req, res) => {
   return res.status(200).json(userById);
 };
 
+const deleteUserById = async (_req, res) => {
+  const email = res.locals.payload;
+
+  await userService.deleteUserById(email);
+
+  return res.status(204).end();
+};
+
 module.exports = {
   createUser,
   getUserAll,
   getUserById,
+  deleteUserById,
 };
