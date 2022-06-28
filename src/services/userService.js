@@ -33,8 +33,18 @@ const getUserById = async (id) => {
   return userById;
 };
 
+const deleteUserById = async (email) => {
+  const user = await User.findOne({
+    attributes: { exclude: ['password'] },
+    where: { email },
+  });
+
+  await User.destroy({ where: { id: user.id } });
+};
+
 module.exports = {
   createUser,
   getUserAll,
   getUserById,
+  deleteUserById,
 };
