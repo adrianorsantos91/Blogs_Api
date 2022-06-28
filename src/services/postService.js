@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { User, BlogPost, Category, PostCategory } = require('../database/models');
 
 const createPost = async (email, { title, content, categoryIds }) => {
@@ -93,10 +94,30 @@ const deletePostById = async (id, email) => {
   return true;
 };
 
+const searchPostByQuery = async (query) => {
+  console.log('query: %s', query);
+
+  if (!query) {
+    const searchPost = await BlogPost.findAll({
+      include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: Category, as: 'categories', through: { attributes: [] } }] });
+
+    return searchPost;
+  }
+
+  const searchPost = await BlogPost.findAll({
+    where: { [Op.or]: [{ title: query }, { content: query }] }, // Operador OR para fazer uma busca condicional entre as duas chaves no banco;
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } }] });
+
+  return searchPost;
+};
+
 module.exports = {
   createPost,
   getPostAll,
   getPostById,
   updatePostById,
   deletePostById,
+  searchPostByQuery,
 };
