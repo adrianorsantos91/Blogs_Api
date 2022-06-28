@@ -6,6 +6,7 @@ const { validateContainsFields, validateCategoryIds,
 
 const router = express.Router();
 
+router.get('/search', authenticateToken, postController.searchPostByQuery);
 router.post('/', authenticateToken,
 validateContainsFields, validateCategoryIds, postController.createPost);
 router.get('/', authenticateToken, postController.getPostAll);
