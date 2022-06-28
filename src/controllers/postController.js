@@ -1,7 +1,6 @@
 const postService = require('../services/postService');
 
 const createPost = async (req, res) => {
-  console.log('ReqBody', req.body);
   const email = res.locals.payload;
   const post = await postService.createPost(email, req.body);
 
@@ -28,8 +27,21 @@ const getPostById = async (req, res) => {
   return res.status(200).json(getPost);
 };
 
+const updatePostById = async (req, res) => {
+  const { id } = req.params;
+  const email = res.locals.payload;
+  const updatePost = await postService.updatePostById(id, email, req.body);
+
+  if (!updatePost) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+
+  return res.status(200).json(updatePost);
+};
+
 module.exports = {
   createPost,
   getPostAll,
   getPostById,
+  updatePostById,
 };
