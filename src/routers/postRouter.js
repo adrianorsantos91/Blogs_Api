@@ -11,5 +11,6 @@ validateContainsFields, validateCategoryIds, postController.createPost);
 router.get('/', authenticateToken, postController.getPostAll);
 router.get('/:id', authenticateToken, postController.getPostById);
 router.put('/:id', authenticateToken, validateUpdateContainsFields, postController.updatePostById);
+router.delete('/:id', authenticateToken, postController.deletePostById);
 
 module.exports = router;
